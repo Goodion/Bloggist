@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="b50b3875-d40c-45c6-b311-cffab6ae5970" name="Default Changelist" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ComposerSettings" doNotAsk="true" synchronizationState="SYNCHRONIZE">
+    <pharConfigPath>$PROJECT_DIR$/composer.json</pharConfigPath>
+    <execution>
+      <executable />
+    </execution>
+  </component>
+  <component name="DatabaseView">
+    <option name="SHOW_INTERMEDIATE" value="true" />
+    <option name="GROUP_DATA_SOURCES" value="true" />
+    <option name="GROUP_SCHEMA" value="true" />
+    <option name="GROUP_CONTENTS" value="false" />
+    <option name="SORT_POSITIONED" value="false" />
+    <option name="SHOW_EMPTY_GROUPS" value="false" />
+    <option name="AUTO_SCROLL_FROM_SOURCE" value="false" />
+    <option name="HIDDEN_KINDS">
+      <set />
+    </option>
+    <expand>
+      <path>
+        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
+        <item name="@localhost" type="feb32156:DbDataSourceImpl" />
+      </path>
+    </expand>
+    <select />
+  </component>
+  <component name="FavoritesManager">
+    <favorites_list name="bloggist" />
+  </component>
+  <component name="PhpWorkspaceProjectConfiguration">
+    <include_path>
+      <path value="$PROJECT_DIR$/vendor/doctrine/inflector" />
+      <path value="$PROJECT_DIR$/vendor/psr/container" />
+      <path value="$PROJECT_DIR$/vendor/psr/simple-cache" />
+      <path value="$PROJECT_DIR$/vendor/symfony/translation-contracts" />
+      <path value="$PROJECT_DIR$/vendor/symfony/polyfill-mbstring" />
+      <path value="$PROJECT_DIR$/vendor/symfony/translation" />
+      <path value="$PROJECT_DIR$/vendor/illuminate/contracts" />
+      <path value="$PROJECT_DIR$/vendor/illuminate/database" />
+      <path value="$PROJECT_DIR$/vendor/illuminate/container" />
+      <path value="$PROJECT_DIR$/vendor/illuminate/support" />
+      <path value="$PROJECT_DIR$/vendor/nesbot/carbon" />
+      <path value="$PROJECT_DIR$/vendor/composer" />
+    </include_path>
+  </component>
+  <component name="ProjectId" id="1XJ1UV5KQFoHjpTFMvgyeRNq5Sz" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="DatabaseDriversLRU" value="mysql" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="settings.editor.selected.configurable" value="reference.webide.settings.project.settings.php.debug" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/view/temp" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+    </key>
+  </component>
+  <component name="ServiceViewManager">
+    <option name="viewStates">
+      <list>
+        <serviceView>
+          <treeState>
+            <expand>
+              <path>
+                <item name="services root" type="e789fda9:ObjectUtils$Sentinel" />
+                <item name="root:@localhost" type="7427dc5b:ServiceModel$ServiceGroupNode" />
+              </path>
+              <path>
+                <item name="services root" type="e789fda9:ObjectUtils$Sentinel" />
+                <item name="root:@localhost" type="7427dc5b:ServiceModel$ServiceGroupNode" />
+                <item name="com.intellij.database.console.session.MessageBusSession@478cdaab" type="9fbbdea:ServiceModel$ServiceNode" />
+              </path>
+            </expand>
+            <select />
+          </treeState>
+        </serviceView>
+      </list>
+    </option>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="b50b3875-d40c-45c6-b311-cffab6ae5970" name="Default Changelist" comment="" />
+      <created>1580749399967</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1580749399967</updated>
+      <workItem from="1580749405435" duration="7379000" />
+      <workItem from="1580758956605" duration="241000" />
+      <workItem from="1580759211067" duration="6577000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="2510" y="215" width="800" height="684" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1580759982716">
+      <screen x="1920" y="0" width="1920" height="1080" />
+    </state>
+    <state x="2510" y="215" width="800" height="684" key="#com.intellij.execution.impl.EditConfigurationsDialog/1920.0.1920.1080/0.27.1920.1053/3840.0.1600.900@1920.0.1920.1080" timestamp="1580759982716" />
+    <state width="1242" height="275" key="GridCell.Tab.0.bottom" timestamp="1580763911908">
+      <screen x="1920" y="0" width="1920" height="1080" />
+    </state>
+    <state width="1242" height="275" key="GridCell.Tab.0.bottom/1920.0.1920.1080/0.27.1920.1053/3840.0.1600.900@1920.0.1920.1080" timestamp="1580763911908" />
+    <state width="1242" height="275" key="GridCell.Tab.0.center" timestamp="1580763911908">
+      <screen x="1920" y="0" width="1920" height="1080" />
+    </state>
+    <state width="1242" height="275" key="GridCell.Tab.0.center/1920.0.1920.1080/0.27.1920.1053/3840.0.1600.900@1920.0.1920.1080" timestamp="1580763911908" />
+    <state width="1242" height="275" key="GridCell.Tab.0.left" timestamp="1580763911908">
+      <screen x="1920" y="0" width="1920" height="1080" />
+    </state>
+    <state width="1242" height="275" key="GridCell.Tab.0.left/1920.0.1920.1080/0.27.1920.1053/3840.0.1600.900@1920.0.1920.1080" timestamp="1580763911908" />
+    <state width="1242" height="275" key="GridCell.Tab.0.right" timestamp="1580763911908">
+      <screen x="1920" y="0" width="1920" height="1080" />
+    </state>
+    <state width="1242" height="275" key="GridCell.Tab.0.right/1920.0.1920.1080/0.27.1920.1053/3840.0.1600.900@1920.0.1920.1080" timestamp="1580763911908" />
+    <state width="263" height="500" key="HiddenNamespacesPopup" timestamp="1580760374521">
+      <screen x="1920" y="0" width="1920" height="1080" />
+    </state>
+    <state width="263" height="500" key="HiddenNamespacesPopup/1920.0.1920.1080/0.27.1920.1053/3840.0.1600.900@1920.0.1920.1080" timestamp="1580760374521" />
+    <state x="2710" y="479" width="399" height="156" key="NewPhpFileDialog" timestamp="1580764240222">
+      <screen x="1920" y="0" width="1920" height="1080" />
+    </state>
+    <state x="2710" y="479" width="399" height="156" key="NewPhpFileDialog/1920.0.1920.1080/0.27.1920.1053/3840.0.1600.900@1920.0.1920.1080" timestamp="1580764240222" />
+    <state x="2404" y="177" width="1022" height="737" key="SettingsEditor" timestamp="1580759511345">
+      <screen x="1920" y="0" width="1920" height="1080" />
+    </state>
+    <state x="2404" y="177" width="1022" height="737" key="SettingsEditor/1920.0.1920.1080/0.27.1920.1053/3840.0.1600.900@1920.0.1920.1080" timestamp="1580759511345" />
+    <state x="2536" y="367" key="com.intellij.ide.util.TipDialog" timestamp="1580759220701">
+      <screen x="1920" y="0" width="1920" height="1080" />
+    </state>
+    <state x="2536" y="367" key="com.intellij.ide.util.TipDialog/1920.0.1920.1080/0.27.1920.1053/3840.0.1600.900@1920.0.1920.1080" timestamp="1580759220701" />
+    <state x="2578" y="259" width="672" height="678" key="search.everywhere.popup" timestamp="1580761244938">
+      <screen x="1920" y="0" width="1920" height="1080" />
+    </state>
+    <state x="2578" y="259" width="672" height="678" key="search.everywhere.popup/1920.0.1920.1080/0.27.1920.1053/3840.0.1600.900@1920.0.1920.1080" timestamp="1580761244938" />
+    <state x="2640" y="467" width="540" height="179" key="vcs.readOnlyHandler.ReadOnlyStatusDialog" timestamp="1580754655949">
+      <screen x="1920" y="0" width="1920" height="1080" />
+    </state>
+    <state x="2640" y="467" width="540" height="179" key="vcs.readOnlyHandler.ReadOnlyStatusDialog/1920.0.1920.1080/0.27.1920.1053/3840.0.1600.900@1920.0.1920.1080" timestamp="1580754655949" />
+  </component>
+</project>
