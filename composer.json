@@ -8,7 +8,8 @@
         }
     ],
     "require": {
-        "illuminate/database": "^6.12"
+        "illuminate/database": "^6.12",
+        "tinymce/tinymce": ">= 5"
     },
 
     "autoload": {

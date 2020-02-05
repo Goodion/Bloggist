@@ -1,14 +1,14 @@
 <?php
 
 namespace src\App\Exception;
-use \src\App\Renderable;
+use \src\App\Renderable as Renderable,
+    \src\App\Exception\HttpException as HttpException;
 
-class NotFoundException extends \src\App\Exception\HttpException implements \src\App\Renderable
+class NotFoundException extends HttpException implements Renderable
 {
     public function render()
     {
-        echo '<pre>';
-        echo 'Возникла ошибка: ' . $this->getMessage() . ' Код ошибки - ' . $this->getCode();
-        echo '</pre>';
+        $format = '<div class="container">Возникла ошибка: %s Код ошибки - %d</div>';
+        echo sprintf($format, $this->getMessage(), $this->getCode());
     }
 }

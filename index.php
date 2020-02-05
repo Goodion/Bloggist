@@ -34,7 +34,23 @@ $router->get('/account', function() {
 });
 
 $router->get('/post/*', function($param) {
-    return new View('post', ['title' => 'Статья ' . $param]);
+    return new View('readpost', ['title' => 'Статья ' . $param]);
+});
+
+$router->get('/addpost', function($param) {
+    return new View('addpost', ['title' => 'Добавление статьи']);
+});
+
+$router->post('/publish', function() {
+    return new View('handle.post_handle', ['title' => 'Публикация статьи']);
+});
+
+$router->post('/register', function() {
+    return new View('handle.registration_handle', ['title' => 'Регистрация пользователя']);
+});
+
+$router->post('/authenticate', function() {
+    return new View('handle.authentication_handle', ['title' => 'Авторизация пользователя']);
 });
 
 $application = new Application($router);

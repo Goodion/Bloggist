@@ -1,3 +1,4 @@
+<div class="container">
 <h1>Bootstrap grid examples</h1>
 <p class="lead">Basic grid layouts to get you familiar with building within the Bootstrap grid system.</p>
 <p>In these examples the <code>.themed-grid-col</code> class is added to the columns to add some theming. This is not a class that is available in Bootstrap by default.</p>
@@ -111,4 +112,5 @@
     <div class="col-6 col-sm-4 themed-grid-col">.col-6 .col-sm-4</div>
     <div class="col-6 col-sm-4 themed-grid-col">.col-6 .col-sm-4</div>
     <div class="col-6 col-sm-4 themed-grid-col">.col-6 .col-sm-4</div>
+</div>
 </div>

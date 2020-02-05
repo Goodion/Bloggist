@@ -6,6 +6,8 @@ use Illuminate\Database\Capsule\Manager as Capsule,
 
 class Application
 {
+    public $router;
+
     public function __construct($router)
     {
         $this->router = $router;
@@ -30,7 +32,7 @@ class Application
             } else {
                 $errorCode = 500;
             }
-            $format = 'Возникла ошибка: %s Код ошибки - %d';
+            $format = '<div class="container">Возникла ошибка: %s Код ошибки - %d</div>';
             echo sprintf($format, $e->getMessage(), $errorCode);
         }
     }
