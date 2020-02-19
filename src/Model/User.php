@@ -11,22 +11,39 @@ class User extends Model
     private $permissions;
     private $created;
     private $password;
+    private $note;
+    private $avatarUri;
 
     protected $table = 'users';
 
+    public function setId($id)
+    {
+        $this->id = $id;
+    }
+
+    public function setAvatarUri($uri)
+    {
+        $uri = htmlspecialchars($uri);
+        $this->avatarUri = $uri;
+    }
+
     public function setLogin($login)
     {
+        $login = trim($login);
+        $login = htmlspecialchars($login);
         $this->login = $login;
     }
 
     public function setEmail($email)
     {
+        $email = trim($email);
+        $email = htmlspecialchars($email);
         $this->email = $email;
     }
 
-    public function setPermissions($permissions)
+    public function setPermissions()
     {
-        $this->permissions = $permissions;
+        $this->permissions = self::where('login', $this->login)->value('permissions');
     }
 
     public function setSubscribed($subscribed)
@@ -39,9 +56,19 @@ class User extends Model
         $this->password = password_hash($password, PASSWORD_DEFAULT);
     }
 
+    public function setCreated($created)
+    {
+        $this->created = $created;
+    }
+
     public function getLogin()
     {
         return $this->login;
+    }
+
+    public function getId()
+    {
+        return $this->id;
     }
 
     public function getEmail()
@@ -51,12 +78,25 @@ class User extends Model
 
     public function getSubscribed()
     {
-        return $this->subscribed;
+        return $this->subscribed === 0 ? 'Не подписан' : 'Подписан';
     }
 
     public function getPermissions()
     {
         return $this->permissions;
+    }
+
+    public function getGroup()
+    {
+        if ($this->permissions >= 1 && $this->permissions < 20) {
+            return 'Зарегистрирован';
+        } else if ($this->permissions >= 20 && $this->permissions < 40) {
+            return 'Контент менеджер';
+        } else if ($this->permissions >= 40) {
+            return 'Администратор';
+        } else {
+            return 'Не зарегистрирован';
+        }
     }
 
     public function getCreated()
@@ -69,13 +109,55 @@ class User extends Model
         return $this->password;
     }
 
-    public function checkLoginUnique($login)
+    public function checkLoginExists($login)
     {
-        return ! self::all()->contains('login', $login);
+        $login = trim($login);
+        $login = htmlspecialchars($login);
+        return self::all()->contains('login', $login);
     }
 
-    public function checkEmailUnique($email)
+    public function checkEmailExists($email)
     {
-        return ! self::all()->contains('email', $email);
+        $email = trim($email);
+        $email = htmlspecialchars($email);
+        return self::all()->contains('email', $email);
+    }
+
+    public function checkPasswordCorrect($password)
+    {
+        $pass = self::where('login', $this->login)->value('password');
+        return password_verify($password, $pass);
+    }
+
+    public function emailValidate($email)
+    {
+        $email = trim($email);
+        $email = htmlspecialchars($email);
+        if (preg_match('/[а-яА-ЯёЁ]/', $email)) {
+            return false;
+        } else if (! strripos($email, '@')) {
+            return false;
+        } else if (! strripos($email, '.') || strripos($email, '.') < strripos($email, '@')) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    public function setNote($note)
+    {
+        $note = trim($note);
+        $note = htmlspecialchars($note);
+        $this->note = $note;
+    }
+
+    public function getNote()
+    {
+        return $this->note;
+    }
+
+    public function getAvatarUri()
+    {
+        return $this->avatarUri;
     }
 }

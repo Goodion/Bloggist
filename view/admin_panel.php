@@ -1,226 +1,171 @@
+<?php
+
+use \src\Model\User as User,
+    \src\Model\Post as Post,
+    \src\Model\Comment as Comment;
+
+$users = (new User())->get();
+$posts = (new Post())->get();
+$comments = (new Comment())->get();
+
+if (!isset($_GET['page'])) {
+    $_GET['page'] = 'posts';
+}
+
+?>
+
 <div class="container">
     <div class="row">
-        <nav class="col-md-2 d-none d-md-block bg-light sidebar">
-            <div class="sidebar-sticky">
-                <ul class="nav flex-column">
-                    <li class="nav-item">
-                        <a class="nav-link active" href="#">
-                            <span data-feather="home"></span>
-                            Dashboard <span class="sr-only">(current)</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            <span data-feather="file"></span>
-                            Orders
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            <span data-feather="shopping-cart"></span>
-                            Products
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            <span data-feather="users"></span>
-                            Customers
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            <span data-feather="bar-chart-2"></span>
-                            Reports
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            <span data-feather="layers"></span>
-                            Integrations
-                        </a>
-                    </li>
-                </ul>
-
-                <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-                    <span>Saved reports</span>
-                    <a class="d-flex align-items-center text-muted" href="#" aria-label="Add a new report">
-                        <span data-feather="plus-circle"></span>
-                    </a>
-                </h6>
-                <ul class="nav flex-column mb-2">
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            <span data-feather="file-text"></span>
-                            Current month
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            <span data-feather="file-text"></span>
-                            Last quarter
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            <span data-feather="file-text"></span>
-                            Social engagement
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            <span data-feather="file-text"></span>
-                            Year-end sale
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </nav>
-
-        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+        <main role="main" class="col-md-12 ml-sm-auto col-lg-12 px-4">
             <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                <h1 class="h2">Dashboard</h1>
+                <h1 class="h2">Администрирование</h1>
                 <div class="btn-toolbar mb-2 mb-md-0">
                     <div class="btn-group mr-2">
-                        <button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
-                        <button type="button" class="btn btn-sm btn-outline-secondary">Export</button>
+                        <?php if ($_SESSION['permissions'] > 20): ?>
+                            <a href="/admin/?page=users" class="btn btn-sm btn-outline-secondary">Пользователи</a>
+                            <a href="/admin/?page=subscribes" class="btn btn-sm btn-outline-secondary">Подписки</a>
+                            <a href="/admin/?page=settings" class="btn btn-sm btn-outline-secondary">Настройки</a>
+                        <?php endif; ?>
+                        <a href="/admin/?page=posts" class="btn btn-sm btn-outline-secondary">Статьи</a>
+                        <a href="/admin/?page=comments" class="btn btn-sm btn-outline-secondary">Комментарии</a>
+                        <a href="/admin/?page=addPages" class="btn btn-sm btn-outline-secondary">Доп.страницы</a>
                     </div>
-                    <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle">
-                        <span data-feather="calendar"></span>
-                        This week
-                    </button>
                 </div>
             </div>
 
-            <canvas class="my-4 w-100" id="myChart" width="900" height="380"></canvas>
+            <?php if ($_GET['page'] === 'users' && $_SESSION['permissions'] > 20): ?>
+                <h2>Пользователи</h2>
+                <div class="table-responsive">
+                    <table class="table table-striped table-sm">
+                        <thead>
+                        <tr>
+                            <th>id</th>
+                            <th>Login</th>
+                            <th>Email</th>
+                            <th>Создан</th>
+                            <th>Изменён</th>
+                            <th>Права</th>
+                            <th>Аватар</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <?php foreach ($users as $user): ?>
+                            <tr>
+                                <td><?=$user->id?></td>
+                                <td><?=$user->login?></td>
+                                <td><?=$user->email?></td>
+                                <td><?=$user->created_at?></td>
+                                <td><?=$user->updated_at?></td>
+                                <td><?=$user->permissions?></td>
+                                <td>
+                                    <?php if ($user->avatarUri !== null): ?>
+                                        <img width="50px" class="img-thumbnail rounded mx-auto d-block" src="/upload/<?=$user->avatarUri?>">
+                                    <?php endif; ?>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+            <?php elseif ($_GET['page'] === 'users' && $_SESSION['permissions'] <= 20): ?>
+                У вас нет доступа к этому разделу
+            <?php endif; ?>
 
-            <h2>Section title</h2>
-            <div class="table-responsive">
-                <table class="table table-striped table-sm">
-                    <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Header</th>
-                        <th>Header</th>
-                        <th>Header</th>
-                        <th>Header</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <td>1,001</td>
-                        <td>Lorem</td>
-                        <td>ipsum</td>
-                        <td>dolor</td>
-                        <td>sit</td>
-                    </tr>
-                    <tr>
-                        <td>1,002</td>
-                        <td>amet</td>
-                        <td>consectetur</td>
-                        <td>adipiscing</td>
-                        <td>elit</td>
-                    </tr>
-                    <tr>
-                        <td>1,003</td>
-                        <td>Integer</td>
-                        <td>nec</td>
-                        <td>odio</td>
-                        <td>Praesent</td>
-                    </tr>
-                    <tr>
-                        <td>1,003</td>
-                        <td>libero</td>
-                        <td>Sed</td>
-                        <td>cursus</td>
-                        <td>ante</td>
-                    </tr>
-                    <tr>
-                        <td>1,004</td>
-                        <td>dapibus</td>
-                        <td>diam</td>
-                        <td>Sed</td>
-                        <td>nisi</td>
-                    </tr>
-                    <tr>
-                        <td>1,005</td>
-                        <td>Nulla</td>
-                        <td>quis</td>
-                        <td>sem</td>
-                        <td>at</td>
-                    </tr>
-                    <tr>
-                        <td>1,006</td>
-                        <td>nibh</td>
-                        <td>elementum</td>
-                        <td>imperdiet</td>
-                        <td>Duis</td>
-                    </tr>
-                    <tr>
-                        <td>1,007</td>
-                        <td>sagittis</td>
-                        <td>ipsum</td>
-                        <td>Praesent</td>
-                        <td>mauris</td>
-                    </tr>
-                    <tr>
-                        <td>1,008</td>
-                        <td>Fusce</td>
-                        <td>nec</td>
-                        <td>tellus</td>
-                        <td>sed</td>
-                    </tr>
-                    <tr>
-                        <td>1,009</td>
-                        <td>augue</td>
-                        <td>semper</td>
-                        <td>porta</td>
-                        <td>Mauris</td>
-                    </tr>
-                    <tr>
-                        <td>1,010</td>
-                        <td>massa</td>
-                        <td>Vestibulum</td>
-                        <td>lacinia</td>
-                        <td>arcu</td>
-                    </tr>
-                    <tr>
-                        <td>1,011</td>
-                        <td>eget</td>
-                        <td>nulla</td>
-                        <td>Class</td>
-                        <td>aptent</td>
-                    </tr>
-                    <tr>
-                        <td>1,012</td>
-                        <td>taciti</td>
-                        <td>sociosqu</td>
-                        <td>ad</td>
-                        <td>litora</td>
-                    </tr>
-                    <tr>
-                        <td>1,013</td>
-                        <td>torquent</td>
-                        <td>per</td>
-                        <td>conubia</td>
-                        <td>nostra</td>
-                    </tr>
-                    <tr>
-                        <td>1,014</td>
-                        <td>per</td>
-                        <td>inceptos</td>
-                        <td>himenaeos</td>
-                        <td>Curabitur</td>
-                    </tr>
-                    <tr>
-                        <td>1,015</td>
-                        <td>sodales</td>
-                        <td>ligula</td>
-                        <td>in</td>
-                        <td>libero</td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
+            <?php if ($_GET['page'] === 'posts'): ?>
+                <h2>Статьи</h2>
+                <div class="table-responsive">
+                    <table class="table table-striped table-sm">
+                        <thead>
+                        <tr>
+                            <th>id</th>
+                            <th>Заголовок</th>
+                            <th>Создана</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <?php foreach ($posts as $post): ?>
+                            <tr>
+                                <td><?=$post->id?></td>
+                                <td><a href="/post/<?=$post->id?>"><?=$post->title?></a></td>
+                                <td><?=$post->created_at?></td>
+                            </tr>
+                        <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+            <?php endif; ?>
+
+            <?php if ($_GET['page'] === 'subscribes' && $_SESSION['permissions'] > 20): ?>
+                <h2>Подписки</h2>
+                <div class="table-responsive">
+                    <table class="table table-striped table-sm">
+                        <thead>
+                        <tr>
+                            <th>id</th>
+                            <th>login</th>
+                            <th>Зарегистрирован</th>
+                            <th>Подписан</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <?php foreach ($users as $user): ?>
+                            <tr>
+                                <td><?=$user->id?></td>
+                                <td><?=$user->login?></td>
+                                <td>
+                                    <?php if ($user->password === ''): ?>
+                                        Не зарегистрирован
+                                    <?php else: ?>
+                                        Зарегистрирован
+                                    <?php endif; ?>
+                                </td>
+                                <td><?=$user->subscribed?></td>
+                            </tr>
+                        <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+            <?php elseif ($_GET['page'] === 'subscribes' && $_SESSION['permissions'] <= 20): ?>
+                У вас нет доступа к этому разделу
+            <?php endif; ?>
+
+            <?php if ($_GET['page'] === 'comments'): ?>
+                <h2>Комментарии</h2>
+                <div class="table-responsive">
+                    <table class="table table-striped table-sm">
+                        <thead>
+                        <tr>
+                            <th>Текст</th>
+                            <th>Статья</th>
+                            <th>Автор</th>
+                            <th>Добавлен</th>
+                            <th>Промодерирован</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <?php foreach ($comments as $comment): ?>
+                            <tr>
+                                <td><?=$comment->text?></td>
+                                <td><?=Post::where('id', $comment->post_id)->value('title')?></td>
+                                <td><?=User::where('id', $comment->author)->value('login')?></td>
+                                <td><?=$comment->created_at?></td>
+                                <td><?=$comment->is_moderated?></td>
+                            </tr>
+                        <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+            <?php endif; ?>
+
+            <?php if ($_GET['page'] === 'addPages'): ?>
+            <?php endif; ?>
+
+            <?php if ($_GET['page'] === 'settings' && $_SESSION['permissions'] > 20): ?>
+            <?php elseif ($_GET['page'] === 'settings' && $_SESSION['permissions'] <= 20): ?>
+                У вас нет доступа к этому разделу
+            <?php endif; ?>
+
+
         </main>
     </div>
 </div>

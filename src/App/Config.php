@@ -26,6 +26,7 @@ final class Config
     private function __construct()
     {
         $this->configs['db'] = include_once $_SERVER['DOCUMENT_ROOT'] . '/configs/db.php';
+        $this->configs['php_config'] = include_once $_SERVER['DOCUMENT_ROOT'] . '/configs/php_config.php';
     }
 
     private function __clone()

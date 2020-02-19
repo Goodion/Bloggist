@@ -17,41 +17,41 @@ $router->get('/', function() {
     return new View('index', ['title' => 'Главная']);
 });
 
-$router->get('/admin', function() {
-    return new View('admin_panel', ['title' => 'Панель администратора']);
+$router->get('/registration', function() {
+    return new View('registration', ['title' => 'Регистрация']);
 });
 
 $router->get('/authentication', function() {
     return new View('authentication', ['title' => 'Авторизация']);
 });
 
-$router->get('/registration', function() {
-    return new View('registration', ['title' => 'Регистрация']);
+$router->get('/account', function() {
+    return new View('users_account', ['title' => 'Личный кабинет', 'permissions' => 1]);
 });
 
-$router->get('/account', function() {
-    return new View('users_account', ['title' => 'Личный кабинет']);
+$router->get('/rules', function() {
+    return new View('rules', ['title' => 'Правила сайта']);
 });
 
 $router->get('/post/*', function($param) {
-    return new View('readpost', ['title' => 'Статья ' . $param]);
+    return new View('readpost', ['title' => 'Статья ' . $param, 'postId' => $param]);
 });
 
-$router->get('/addpost', function($param) {
-    return new View('addpost', ['title' => 'Добавление статьи']);
+$router->get('/addpost', function() {
+    return new View('addpost', ['title' => 'Добавление статьи', 'permissions' => 20]);
 });
 
-$router->post('/publish', function() {
-    return new View('handle.post_handle', ['title' => 'Публикация статьи']);
+$router->get('/admin', function() {
+    return new View('admin_panel', ['title' => 'Панель администратора', 'permissions' => 20]);
 });
 
-$router->post('/register', function() {
-    return new View('handle.registration_handle', ['title' => 'Регистрация пользователя']);
-});
-
-$router->post('/authenticate', function() {
-    return new View('handle.authentication_handle', ['title' => 'Авторизация пользователя']);
-});
+$router->post('/subscribe', Controller::class . '@subscribe');
+$router->post('/addComment', Controller::class . '@addComment');
+$router->post('/publish', Controller::class . '@publish');
+$router->post('/register', Controller::class . '@register');
+$router->post('/authenticate', Controller::class . '@authenticate');
+$router->post('/updateProfile', Controller::class . '@updateProfile');
+$router->get('/logout', Controller::class . '@logout');
 
 $application = new Application($router);
 

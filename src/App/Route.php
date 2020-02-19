@@ -2,11 +2,14 @@
 
 namespace src\App;
 
+use \src\App\Renderable as Renderable;
+
 class Route
 {
     private $method;
     private $path;
     private $callback;
+    private $callbackResult;
 
     private static function getClassMethod($inputSting) 
     {
@@ -58,16 +61,31 @@ class Route
         return $result;
     }
 
-    public function run($uri)
+    public function executeCallback($uri)
     {
         if (strpos($this->path, '*')) {
             $params = $this->findParams($uri, $this->path);
         }
 
         if (isset($params)) {
-            return call_user_func_array($this->prepareCallback($this->callback), $params);
+            $this->callbackResult = call_user_func_array($this->prepareCallback($this->callback), $params);
         } else {
-            return $this->prepareCallback($this->callback)($uri);
+            $this->callbackResult = $this->prepareCallback($this->callback)($uri);
         }
+    }
+
+    public function checkIsRenderable($uri)
+    {
+        $this->executeCallback($uri);
+        if ($this->callbackResult instanceof Renderable) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function run($uri)
+    {
+        return $this->callbackResult;
     }
 }

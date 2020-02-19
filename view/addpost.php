@@ -20,7 +20,7 @@
                         <textarea id="inputArea" rows="25" name="body"></textarea>
                     </div>
                 </div>
-                <hr class="mb-4">
+                <hr class="mb-3">
                 <button class="btn btn-primary btn-lg btn-block" type="submit">Сохранить</button>
             </form>
         </div>

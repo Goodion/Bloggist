@@ -2,7 +2,8 @@
 
 namespace src\App;
 use Illuminate\Database\Capsule\Manager as Capsule,
-    \src\App\Config as Config;
+    \src\App\Config as Config,
+    \src\App\Session as Session;
 
 class Application
 {
@@ -17,9 +18,13 @@ class Application
     {
         $capsule = new Capsule;
         $config = Config::getInstance();
+        $config->get('php_config');
         $capsule->addconnection($config->get('db'));
         $capsule->setAsGlobal();
         $capsule->bootEloquent();
+        $session = new Session;
+        $session->sessionRestart();
+        $session->placeUserCookie();
     }
 
     public function renderException(\Exception $e)

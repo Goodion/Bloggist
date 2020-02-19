@@ -1,4 +1,4 @@
-<div class="container">
+
 <div class="py-5 text-center">
     <img class="d-block mx-auto mb-4" src="/docs/4.4/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
     <h2>Регистрация</h2>
@@ -51,10 +51,10 @@
             <hr class="mb-3">
 
             <button class="btn btn-primary btn-lg btn-block" type="submit">Зарегистрироваться</button>
-            <div class="pt-2 text-center">
-                <a href="#" class="stretched-link">Авторизация</a>
-            </div>
         </form>
+        <div class="pt-2 text-center">
+            <a href="/authentication">Авторизация</a>
+        </div>
     </div>
 </div>
-</div>
+

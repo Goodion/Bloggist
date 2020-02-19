@@ -1,5 +1,5 @@
 <div class="container">
-    <form class="form-signin">
+    <form class="form-signin" method="post" action="/authenticate">
         <img class="mb-4" src="/docs/4.4/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
         <h1 class="h3 mb-3 font-weight-normal">Авторизация</h1>
         <label for="inputLogin" class="sr-only">Логин</label>

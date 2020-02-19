@@ -3,100 +3,76 @@
 use \src\Model\Post as Post;
 
 $posts = Post::all();
+$currentPageValue = 1;
+
+if ($posts->isNotEmpty()) {
+    $postPerPage = 3;
+    $postsSortedByDescChunked = $posts->sortByDesc('created_at')->chunk($postPerPage);
+    $pagesQuantity = $postsSortedByDescChunked->count();
+
+    if (isset($_GET['page'])) {
+        $currentPageValue = intval($_GET['page']);
+        if ($currentPageValue <= 0) {
+            $currentPageValue = 1;
+        } else if ($currentPageValue > $pagesQuantity) {
+            $currentPageValue = $pagesQuantity;
+        }
+    }
+} else {
+    throw new \Exception('К сожалению, статей не найдено.');
+}
+
+$currentPagePosts = $postsSortedByDescChunked[$currentPageValue - 1];
+
+if ($currentPageValue === 1) {
+    $followingPaginationClass = 'disabled';
+    $previosPosts = ++$currentPageValue;
+    $followingPosts = $currentPageValue;
+} else if ($currentPageValue === $pagesQuantity) {
+    $previusPaginationClass = 'disabled';
+    $previosPosts = $currentPageValue;
+    $followingPosts = --$currentPageValue;
+} else {
+    $previosPosts = $currentPageValue + 1;
+    $followingPosts = $currentPageValue - 1;
+}
 
 ?>
 
 <div class="container">
-    <div class="row mb-2">
-        <div class="col-md-6">
-            <div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
-                <div class="col p-4 d-flex flex-column position-static">
-                    <strong class="d-inline-block mb-2 text-primary">World</strong>
-                    <h3 class="mb-0">Featured post</h3>
-                    <div class="mb-1 text-muted">Nov 12</div>
-                    <p class="card-text mb-auto">This is a wider card with supporting text below as a natural lead-in to additional content.</p>
-                    <a href="#" class="stretched-link">Continue reading</a>
-                </div>
-                <div class="col-auto d-none d-lg-block">
-                    <svg class="bd-placeholder-img" width="200" height="250" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"/><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
-                <div class="col p-4 d-flex flex-column position-static">
-                    <strong class="d-inline-block mb-2 text-success">Design</strong>
-                    <h3 class="mb-0">Post title</h3>
-                    <div class="mb-1 text-muted">Nov 11</div>
-                    <p class="mb-auto">This is a wider card with supporting text below as a natural lead-in to additional content.</p>
-                    <a href="#" class="stretched-link">Continue reading</a>
-                </div>
-                <div class="col-auto d-none d-lg-block">
-                    <svg class="bd-placeholder-img" width="200" height="250" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"/><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
-                </div>
-            </div>
+    <div class="jumbotron p-4 p-md-5 text-white rounded bg-dark">
+        <div class="col-md px-0">
+            <h1 class="display-4 font-italic">Пробный блог</h1>
+            <p class="lead my-3">Какое-то описание...</p>
         </div>
     </div>
+
+    <main role="main" class="container">
+        <div class="row">
+            <div class="col-md blog-main">
+                <h3 class="pb-4 mb-4 font-italic border-bottom">
+                    From the Firehose
+                </h3>
+
+                <div>
+                    <?foreach ($currentPagePosts as $post): ?>
+                        <div class="blog-post">
+                            <h2 class="blog-post-title"><a href="/post/<?=$post->id?>"><?=$post->title?></a></h2>
+                            <p class="blog-post-meta"><?=$post->created_at?> by <a href="#">SaltyDuck</a></p>
+                            <?=htmlspecialchars_decode($post->body)?>
+                        </div>
+                    <?endforeach;?>
+                </div>
+
+                <nav class="blog-pagination">
+                    <a class="btn btn-outline-primary <?=$followingPaginationClass?>" href="/?page=<?=$followingPosts?>">Следующие статьи</a>
+                    <a class="btn btn-outline-primary <?=$previusPaginationClass?>" href="/?page=<?=$previosPosts?>" tabindex="-1">Предыдущие статьи</a>
+                </nav>
+
+            </div><!-- /.blog-main -->
+
+        </div><!-- /.row -->
+
+    </main><!-- /.container -->
+
 </div>
-
-<main role="main" class="container">
-    <div class="row">
-        <div class="col-md-8 blog-main">
-            <h3 class="pb-4 mb-4 font-italic border-bottom">
-                From the Firehose
-            </h3>
-
-            <div class="container">
-                <?foreach ($posts as $post): ?>
-                    <div class="blog-post">
-                        <h2 class="blog-post-title"><?=$post->title?></h2>
-                        <p class="blog-post-meta"><?=$post->created_at?> by <a href="#">SaltyDuck</a></p>
-                        <div class="blog-post><?=htmlspecialchars_decode($post->body)?></div>
-                    </div>
-                <?endforeach;?>
-            </div>
-
-            <nav class="blog-pagination">
-                <a class="btn btn-outline-primary" href="#">Older</a>
-                <a class="btn btn-outline-secondary disabled" href="#" tabindex="-1" aria-disabled="true">Newer</a>
-            </nav>
-
-        </div><!-- /.blog-main -->
-
-        <aside class="col-md-4 blog-sidebar">
-            <div class="p-4 mb-3 bg-light rounded">
-                <h4 class="font-italic">About</h4>
-                <p class="mb-0">Etiam porta <em>sem malesuada magna</em> mollis euismod. Cras mattis consectetur purus sit amet fermentum. Aenean lacinia bibendum nulla sed consectetur.</p>
-            </div>
-
-            <div class="p-4">
-                <h4 class="font-italic">Archives</h4>
-                <ol class="list-unstyled mb-0">
-                    <li><a href="#">March 2014</a></li>
-                    <li><a href="#">February 2014</a></li>
-                    <li><a href="#">January 2014</a></li>
-                    <li><a href="#">December 2013</a></li>
-                    <li><a href="#">November 2013</a></li>
-                    <li><a href="#">October 2013</a></li>
-                    <li><a href="#">September 2013</a></li>
-                    <li><a href="#">August 2013</a></li>
-                    <li><a href="#">July 2013</a></li>
-                    <li><a href="#">June 2013</a></li>
-                    <li><a href="#">May 2013</a></li>
-                    <li><a href="#">April 2013</a></li>
-                </ol>
-            </div>
-
-            <div class="p-4">
-                <h4 class="font-italic">Elsewhere</h4>
-                <ol class="list-unstyled">
-                    <li><a href="#">GitHub</a></li>
-                    <li><a href="#">Twitter</a></li>
-                    <li><a href="#">Facebook</a></li>
-                </ol>
-            </div>
-        </aside><!-- /.blog-sidebar -->
-
-    </div><!-- /.row -->
-
-</main><!-- /.container -->

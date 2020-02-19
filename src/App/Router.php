@@ -3,7 +3,6 @@
 namespace src\App;
 use \src\App\Exception\HttpException as HttpException,
     \src\App\Exception\NotFoundException as NotFoundException,
-    \src\App\Renderable as Renderable,
     \src\App\Route as Route;
 
 class Router
@@ -40,7 +39,7 @@ class Router
 
         if ($registeredRoute) {
             if ($registeredRoute->match($method, $registeredRoute->getPath())) {
-                if ($registeredRoute->run($path) instanceof Renderable) {
+                if ($registeredRoute->checkIsRenderable($path)) {
                     $registeredRoute->run($path)->render();
                 } else {
                     return $registeredRoute->run($path);
