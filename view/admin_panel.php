@@ -22,13 +22,13 @@ if (!isset($_GET['page'])) {
                 <div class="btn-toolbar mb-2 mb-md-0">
                     <div class="btn-group mr-2">
                         <?php if ($_SESSION['permissions'] > 20): ?>
-                            <a href="/admin/?page=users" class="btn btn-sm btn-outline-secondary">Пользователи</a>
-                            <a href="/admin/?page=subscribes" class="btn btn-sm btn-outline-secondary">Подписки</a>
-                            <a href="/admin/?page=settings" class="btn btn-sm btn-outline-secondary">Настройки</a>
+                            <a href="/admin?page=users" class="btn btn-sm btn-outline-secondary">Пользователи</a>
+                            <a href="/admin?page=subscribes" class="btn btn-sm btn-outline-secondary">Подписки</a>
+                            <a href="/admin?page=settings" class="btn btn-sm btn-outline-secondary">Настройки</a>
                         <?php endif; ?>
-                        <a href="/admin/?page=posts" class="btn btn-sm btn-outline-secondary">Статьи</a>
-                        <a href="/admin/?page=comments" class="btn btn-sm btn-outline-secondary">Комментарии</a>
-                        <a href="/admin/?page=addPages" class="btn btn-sm btn-outline-secondary">Доп.страницы</a>
+                        <a href="/admin?page=posts" class="btn btn-sm btn-outline-secondary">Статьи</a>
+                        <a href="/admin?page=comments" class="btn btn-sm btn-outline-secondary">Комментарии</a>
+                        <a href="/admin?page=addPages" class="btn btn-sm btn-outline-secondary">Доп.страницы</a>
                     </div>
                 </div>
             </div>
@@ -140,6 +140,7 @@ if (!isset($_GET['page'])) {
                             <th>Автор</th>
                             <th>Добавлен</th>
                             <th>Промодерирован</th>
+                            <th>Опубликовать</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -150,6 +151,12 @@ if (!isset($_GET['page'])) {
                                 <td><?=User::where('id', $comment->author)->value('login')?></td>
                                 <td><?=$comment->created_at?></td>
                                 <td><?=$comment->is_moderated?></td>
+                                <td class="text-center">
+                                    <form action="/publish_comment" method="post">
+                                        <input type="hidden" name="comment_id" value="<?=$comment->id?>">
+                                        <input type="submit" class="btn btn-outline-secondary btn-sm " value="  ">
+                                    </form>
+                                </td>
                             </tr>
                         <?php endforeach; ?>
                         </tbody>

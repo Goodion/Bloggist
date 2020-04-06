@@ -5,7 +5,7 @@ use \src\Model\Post as Post,
     \src\Model\User as User;
 
 $post = Post::where('id', $this->params['postId']);
-$comments = Comment::all()->where('post_id', $this->params['postId']);
+$comments = Comment::all()->where('post_id', $this->params['postId'])->where('is_moderated', 1);
 $user = User::all();
 
 ?>

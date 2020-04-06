@@ -23,9 +23,6 @@ $user->setPermissions();
             <div class="col-3 themed-grid-col">Логин</div>
             <div class="col-4 themed-grid-col"><?=$user->getLogin()?></div>
             <div class="col-5 themed-grid-col">
-                <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Новый логин" name="newLogin">
-                </div>
             </div>
         </div>
         <div class="row mb-3">

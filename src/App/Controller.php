@@ -9,7 +9,7 @@ use \src\Model\User as User,
 
 class Controller
 {
-    private static function checkPermissions($permissions)
+    protected static function checkPermissions($permissions)
     {
         if (! isset($_SESSION['permissions']) || $_SESSION['permissions'] < $permissions) {
             throw new \Exception('У Вас нет доступа к данной странице.');
@@ -18,7 +18,7 @@ class Controller
 
     public static function authenticate()
     {
-        if ($_POST['login'] !== '' && $_POST['password'] !== '') {
+        if (isset($_POST['login']) && isset($_POST['password']) && $_POST['login'] !== '' && $_POST['password'] !== '') {
 
             $user = new User();
 
@@ -48,7 +48,7 @@ class Controller
 
     public static function logout()
     {
-        $_SESSION = array();
+        $_SESSION = [];
         if (ini_get("session.use_cookies")) {
             $params = session_get_cookie_params();
             setcookie(
@@ -93,38 +93,11 @@ class Controller
         }
     }
 
-    public static function publish()
-    {
-        self::checkPermissions(20);
-
-        if ($_POST['title'] !== '' && $_POST['body'] !== '') {
-            $post = new Post();
-            $post->setTitle($_POST['title']);
-            $post->setBody($_POST['body']);
-            $post->insert(
-                ['title' => $post->getTitle(), 'body' => $post->getBody()]
-            );
-            header('Location: /addpost');
-        } else {
-            throw new \Exception('Не все поля заполнены.');
-        }
-    }
-
     public static function updateProfile()
     {
         self::checkPermissions(1);
         $currentUser = User::where('login', $_SESSION['login']);
         $user = new User();
-
-        if ($_POST['newLogin'] !== '') {
-            if (! $user->checkLoginExists($_POST['newLogin'])) {
-                $user->setLogin($_POST['newLogin']);
-                $currentUser->update(['login' => $user->getLogin()]);
-                $_SESSION['login'] = $user->getLogin();
-            } else {
-                throw new \Exception('Логин занят.');
-            }
-        }
 
         if ($_POST['newEmail'] !== '') {
             if (! $user->checkEmailExists($_POST['newEmail'])) {
@@ -202,26 +175,5 @@ class Controller
             throw new \Exception('Не введён email.');
         }
         header('Location: /');
-    }
-
-    public static function addComment()
-    {
-        self::checkPermissions(1);
-
-        if ($_POST['comment'] !== '' && $_POST['postId'] !== '') {
-            $currentUser = User::where('login', $_SESSION['login']);
-
-            $comment = new Comment();
-            $comment->setText($_POST['comment']);
-            $comment->setAuthor($currentUser->value('id'));
-            $comment->setPostId($_POST['postId']);
-
-            $comment->insert(
-                ['text' => $comment->getText(), 'author' => $comment->getAuthor(), 'post_id' => $comment->getPostId()]
-            );
-            header('Location: /post/' . $comment->getPostId());
-        } else {
-            throw new \Exception('Не все поля заполнены.');
-        }
     }
 }
