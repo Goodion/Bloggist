@@ -6,6 +6,12 @@ use \src\App\Renderable as Renderable;
 
 class View implements Renderable
 {
+    protected $path;
+    protected $file;
+    protected $params;
+    protected $header;
+    protected $footer;
+
     public function __construct($path, $callback)
     {
         $this->path = str_replace('.', '/', $path);
@@ -15,19 +21,8 @@ class View implements Renderable
         $this->footer = VIEW_DIR . 'layout/footer.php';
     }
 
-    public function checkPermissions()
-    {
-        if (isset($this->params['permissions'])) {
-            if (! isset($_SESSION['permissions']) || $_SESSION['permissions'] < $this->params['permissions']) {
-                throw new \Exception('У Вас нет доступа к данной странице.');
-                exit;
-            }
-        }
-    }
-
     public function render()
     {
-        $this->checkPermissions();
         include $this->header;
         include $this->file;
         include $this->footer;

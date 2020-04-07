@@ -11,8 +11,8 @@ class Session
         session_destroy();
         session_start();
         setcookie(session_name(), session_id(), time() + 60 * 60 * 24, '/');
-        $_SESSION['login'] = $user->getlogin();
-        $_SESSION['permissions'] = $user->getPermissions();
+        $_SESSION['login'] = $user->login;
+        $_SESSION['permissions'] = $user->permissions;
         $_SESSION[session_name()] = session_id();
     }
 

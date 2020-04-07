@@ -3,9 +3,8 @@
 namespace src\App;
 
 use \src\Model\User as User,
-    \src\App\Session as Session,
-    \src\Model\Post as Post,
-    \src\Model\Comment as Comment;
+    \src\App\Session as Session;
+
 
 class Controller
 {
@@ -71,12 +70,12 @@ class Controller
                         $user->setLogin($_POST['login']);
                         $user->setEmail($_POST['email']);
                         $user->setPassword($_POST['password']);
-                        isset($_POST['subscribe']) ? $user->setSubscribed(1) : $user->setSubscribed(0);
+                        $user->subscribed = isset($_POST['subscribe']) ? 1 : 0;
                         $user->insert([
-                            'login' => $user->getLogin(),
-                            'email' => $user->getEmail(),
-                            'password' => $user->getPasswordHash(),
-                            'subscribed' => $user->getSubscribed(),
+                            'login' => $user->login,
+                            'email' => $user->email,
+                            'password' => $user->password,
+                            'subscribed' => $user->subscribed,
                         ]);
                         self::authenticate();
                     } else {
@@ -96,6 +95,7 @@ class Controller
     public static function updateProfile()
     {
         self::checkPermissions(1);
+
         $currentUser = User::where('login', $_SESSION['login']);
         $user = new User();
 

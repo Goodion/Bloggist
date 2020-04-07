@@ -1,44 +1,3 @@
-<?php
-
-use \src\Model\Post as Post;
-
-$posts = Post::all();
-$currentPageValue = 1;
-
-if ($posts->isNotEmpty()) {
-    $postPerPage = 3;
-    $postsSortedByDescChunked = $posts->sortByDesc('created_at')->chunk($postPerPage);
-    $pagesQuantity = $postsSortedByDescChunked->count();
-
-    if (isset($_GET['page'])) {
-        $currentPageValue = intval($_GET['page']);
-        if ($currentPageValue <= 0) {
-            $currentPageValue = 1;
-        } else if ($currentPageValue > $pagesQuantity) {
-            $currentPageValue = $pagesQuantity;
-        }
-    }
-} else {
-    throw new \Exception('К сожалению, статей не найдено.');
-}
-
-$currentPagePosts = $postsSortedByDescChunked[$currentPageValue - 1];
-
-if ($currentPageValue === 1) {
-    $followingPaginationClass = 'disabled';
-    $previosPosts = ++$currentPageValue;
-    $followingPosts = $currentPageValue;
-} else if ($currentPageValue === $pagesQuantity) {
-    $previusPaginationClass = 'disabled';
-    $previosPosts = $currentPageValue;
-    $followingPosts = --$currentPageValue;
-} else {
-    $previosPosts = $currentPageValue + 1;
-    $followingPosts = $currentPageValue - 1;
-}
-
-?>
-
 <div class="container">
     <div class="jumbotron p-4 p-md-5 text-white rounded bg-dark">
         <div class="col-md px-0">
@@ -55,7 +14,7 @@ if ($currentPageValue === 1) {
                 </h3>
 
                 <div>
-                    <?foreach ($currentPagePosts as $post): ?>
+                    <?foreach ($this->params['currentPagePosts'] as $post): ?>
                         <div class="blog-post">
                             <h2 class="blog-post-title"><a href="/post/<?=$post->id?>"><?=$post->title?></a></h2>
                             <p class="blog-post-meta"><?=$post->created_at?> by <a href="#">SaltyDuck</a></p>
@@ -65,8 +24,8 @@ if ($currentPageValue === 1) {
                 </div>
 
                 <nav class="blog-pagination">
-                    <a class="btn btn-outline-primary <?=$followingPaginationClass?>" href="/?page=<?=$followingPosts?>">Следующие статьи</a>
-                    <a class="btn btn-outline-primary <?=$previusPaginationClass?>" href="/?page=<?=$previosPosts?>" tabindex="-1">Предыдущие статьи</a>
+                    <a class="btn btn-outline-primary <?=$this->params['followingPaginationClass']?>" href="/?page=<?=$this->params['followingPosts']?>">Следующие статьи</a>
+                    <a class="btn btn-outline-primary <?=$this->params['previousPaginationClass']?>" href="/?page=<?=$this->params['previousPosts']?>" tabindex="-1">Предыдущие статьи</a>
                 </nav>
 
             </div><!-- /.blog-main -->

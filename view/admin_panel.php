@@ -1,16 +1,6 @@
 <?php
 
-use \src\Model\User as User,
-    \src\Model\Post as Post,
-    \src\Model\Comment as Comment;
-
-$users = (new User())->get();
-$posts = (new Post())->get();
-$comments = (new Comment())->get();
-
-if (!isset($_GET['page'])) {
-    $_GET['page'] = 'posts';
-}
+use \src\App\PermissionsController as PermissionsController;
 
 ?>
 
@@ -33,7 +23,7 @@ if (!isset($_GET['page'])) {
                 </div>
             </div>
 
-            <?php if ($_GET['page'] === 'users' && $_SESSION['permissions'] > 20): ?>
+            <?php if ($_GET['page'] === 'users' && PermissionsController::checkPermissions(21)): ?>
                 <h2>Пользователи</h2>
                 <div class="table-responsive">
                     <table class="table table-striped table-sm">
@@ -49,14 +39,14 @@ if (!isset($_GET['page'])) {
                         </tr>
                         </thead>
                         <tbody>
-                        <?php foreach ($users as $user): ?>
+                        <?php foreach ($this->params['users'] as $user): ?>
                             <tr>
                                 <td><?=$user->id?></td>
                                 <td><?=$user->login?></td>
                                 <td><?=$user->email?></td>
                                 <td><?=$user->created_at?></td>
                                 <td><?=$user->updated_at?></td>
-                                <td><?=$user->permissions?></td>
+                                <td><?=$user->getGroup()?></td>
                                 <td>
                                     <?php if ($user->avatarUri !== null): ?>
                                         <img width="50px" class="img-thumbnail rounded mx-auto d-block" src="/upload/<?=$user->avatarUri?>">
@@ -67,8 +57,6 @@ if (!isset($_GET['page'])) {
                         </tbody>
                     </table>
                 </div>
-            <?php elseif ($_GET['page'] === 'users' && $_SESSION['permissions'] <= 20): ?>
-                У вас нет доступа к этому разделу
             <?php endif; ?>
 
             <?php if ($_GET['page'] === 'posts'): ?>
@@ -83,7 +71,7 @@ if (!isset($_GET['page'])) {
                         </tr>
                         </thead>
                         <tbody>
-                        <?php foreach ($posts as $post): ?>
+                        <?php foreach ($this->params['posts'] as $post): ?>
                             <tr>
                                 <td><?=$post->id?></td>
                                 <td><a href="/post/<?=$post->id?>"><?=$post->title?></a></td>
@@ -95,7 +83,7 @@ if (!isset($_GET['page'])) {
                 </div>
             <?php endif; ?>
 
-            <?php if ($_GET['page'] === 'subscribes' && $_SESSION['permissions'] > 20): ?>
+            <?php if ($_GET['page'] === 'subscribes' && PermissionsController::checkPermissions(21)): ?>
                 <h2>Подписки</h2>
                 <div class="table-responsive">
                     <table class="table table-striped table-sm">
@@ -108,7 +96,7 @@ if (!isset($_GET['page'])) {
                         </tr>
                         </thead>
                         <tbody>
-                        <?php foreach ($users as $user): ?>
+                        <?php foreach ($this->params['users'] as $user): ?>
                             <tr>
                                 <td><?=$user->id?></td>
                                 <td><?=$user->login?></td>
@@ -125,8 +113,6 @@ if (!isset($_GET['page'])) {
                         </tbody>
                     </table>
                 </div>
-            <?php elseif ($_GET['page'] === 'subscribes' && $_SESSION['permissions'] <= 20): ?>
-                У вас нет доступа к этому разделу
             <?php endif; ?>
 
             <?php if ($_GET['page'] === 'comments'): ?>
@@ -144,11 +130,15 @@ if (!isset($_GET['page'])) {
                         </tr>
                         </thead>
                         <tbody>
-                        <?php foreach ($comments as $comment): ?>
+                        <?php foreach ($this->params['comments'] as $comment): ?>
                             <tr>
                                 <td><?=$comment->text?></td>
-                                <td><?=Post::where('id', $comment->post_id)->value('title')?></td>
-                                <td><?=User::where('id', $comment->author)->value('login')?></td>
+                                <td>
+                                    <a href="/post/<?=$this->params['posts']->where('id', $comment->post_id)->first()->id?>">
+                                        <?=$this->params['posts']->where('id', $comment->post_id)->first()->title?>
+                                    </a>
+                                </td>
+                                <td><?=$this->params['users']->where('id', $comment->author)->first()->login?></td>
                                 <td><?=$comment->created_at?></td>
                                 <td><?=$comment->is_moderated?></td>
                                 <td class="text-center">
@@ -167,11 +157,8 @@ if (!isset($_GET['page'])) {
             <?php if ($_GET['page'] === 'addPages'): ?>
             <?php endif; ?>
 
-            <?php if ($_GET['page'] === 'settings' && $_SESSION['permissions'] > 20): ?>
-            <?php elseif ($_GET['page'] === 'settings' && $_SESSION['permissions'] <= 20): ?>
-                У вас нет доступа к этому разделу
+            <?php if ($_GET['page'] === 'settings' && PermissionsController::checkPermissions(21)): ?>
             <?php endif; ?>
-
 
         </main>
     </div>

@@ -5,21 +5,7 @@ use Illuminate\Database\Eloquent\Model as Model;
 
 class User extends Model
 {
-    private $login;
-    private $email;
-    private $subscribed;
-    private $permissions;
-    private $created;
-    private $password;
-    private $note;
-    private $avatarUri;
-
     protected $table = 'users';
-
-    public function setId($id)
-    {
-        $this->id = $id;
-    }
 
     public function setAvatarUri($uri)
     {
@@ -46,44 +32,14 @@ class User extends Model
         $this->permissions = self::where('login', $this->login)->value('permissions');
     }
 
-    public function setSubscribed($subscribed)
-    {
-        $this->subscribed = $subscribed;
-    }
-
     public function setPassword($password)
     {
         $this->password = password_hash($password, PASSWORD_DEFAULT);
     }
 
-    public function setCreated($created)
-    {
-        $this->created = $created;
-    }
-
-    public function getLogin()
-    {
-        return $this->login;
-    }
-
-    public function getId()
-    {
-        return $this->id;
-    }
-
     public function getEmail()
     {
         return $this->email;
-    }
-
-    public function getSubscribed()
-    {
-        return $this->subscribed === 0 ? 'Не подписан' : 'Подписан';
-    }
-
-    public function getPermissions()
-    {
-        return $this->permissions;
     }
 
     public function getGroup()
@@ -97,16 +53,6 @@ class User extends Model
         } else {
             return 'Не зарегистрирован';
         }
-    }
-
-    public function getCreated()
-    {
-        return $this->created;
-    }
-
-    public function getPasswordHash()
-    {
-        return $this->password;
     }
 
     public function checkLoginExists($login)

@@ -1,6 +1,7 @@
 <?php
 
 use src\App\AdditionalPagesController;
+use src\App\CommentsController;
 use \src\App\Controller as Controller,
     \src\App\Application as Application,
     \src\App\Router as Router;
@@ -17,10 +18,10 @@ $router = new Router();
 $router->get('/', PostsController::class . '@index');
 $router->get('/post/*', PostsController::class . '@show');
 $router->get('/addpost', PostsController::class . '@addpost');
-$router->post('/addComment', PostsController::class . '@addComment');
 $router->post('/publish', PostsController::class . '@publish');
-$router->post('/publish_comment', PostsController::class . '@publishComment');
 
+$router->post('/addComment', CommentsController::class . '@add');
+$router->post('/publish_comment', CommentsController::class . '@publish');
 
 $router->get('/registration', AdditionalPagesController::class . '@registrationPage');
 $router->get('/authentication', AdditionalPagesController::class . '@authenticationPage');

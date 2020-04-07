@@ -2,63 +2,89 @@
 
 namespace src\App;
 
-use \src\Model\User as User,
-    \src\App\Session as Session,
-    \src\Model\Post as Post,
-    \src\Model\Comment as Comment;
+use src\Model\Comment;
+use \src\Model\Post as Post;
+use src\Model\User;
 use view\View;
 
 class PostsController extends Controller
 {
     public static function index()
     {
-        return new View('index', ['title' => 'Главная']);
+        $posts = Post::all();
+        $currentPageValue = 1;
+
+        if ($posts->isNotEmpty()) {
+            $postPerPage = 3;
+            $postsSortedByDescChunked = $posts->sortByDesc('created_at')->chunk($postPerPage);
+            $pagesQuantity = $postsSortedByDescChunked->count();
+
+            if (isset($_GET['page'])) {
+                $currentPageValue = intval($_GET['page']);
+                if ($currentPageValue <= 0) {
+                    $currentPageValue = 1;
+                } else if ($currentPageValue > $pagesQuantity) {
+                    $currentPageValue = $pagesQuantity;
+                }
+            }
+        } else {
+            throw new \Exception('К сожалению, статей не найдено.');
+        }
+
+        $currentPagePosts = $postsSortedByDescChunked[$currentPageValue - 1];
+        $previousPosts = 0;
+        $previousPaginationClass = '';
+        $followingPosts = 0;
+        $followingPaginationClass = '';
+
+
+        if ($currentPageValue === 1) {
+            $followingPaginationClass = 'disabled';
+            $previousPosts = ++$currentPageValue;
+            $followingPosts = $currentPageValue;
+        } else if ($currentPageValue === $pagesQuantity) {
+            $previousPaginationClass = 'disabled';
+            $previousPosts = $currentPageValue;
+            $followingPosts = --$currentPageValue;
+        } else {
+            $previousPosts = $currentPageValue + 1;
+            $followingPosts = $currentPageValue - 1;
+        }
+
+        return new View('index', [
+            'title' => 'Главная',
+            'currentPagePosts' => $currentPagePosts,
+            'followingPaginationClass' => $followingPaginationClass,
+            'followingPosts' => $followingPosts,
+            'previousPaginationClass' => $previousPaginationClass,
+            'previousPosts' => $previousPosts
+        ]);
     }
 
-    public static function show($post)
+    public static function show($postId)
     {
-        return new View('readpost', ['title' => 'Статья ' . $post, 'postId' => $post]);
+        $post = Post::where('id', $postId)->first();
+        $comments = Comment::all()->where('post_id', $postId)->where('is_moderated', 1);
+        $user = User::all();
+
+        return new View('readpost', [
+            'title' => 'Статья ' . $post,
+            'post' => $post,
+            'comments' => $comments,
+            'user' => $user
+        ]);
     }
 
     public static function addPost()
     {
-        return new View('addpost', ['title' => 'Добавление статьи', 'permissions' => 20]);
-    }
+        PermissionsController::checkPermissions(20);
 
-    public static function addComment()
-    {
-        self::checkPermissions(1);
-
-        if ($_POST['comment'] !== '' && $_POST['postId'] !== '') {
-            $currentUser = User::where('login', $_SESSION['login']);
-
-            $comment = new Comment();
-            $comment->text = $comment->prepareText($_POST['comment']);
-            $comment->author = $currentUser->value('id');
-            $comment->post_id = $_POST['postId'];
-
-            $comment->save();
-            header('Location: /post/' . $comment->post_id);
-        } else {
-            throw new \Exception('Не все поля заполнены.');
-        }
-    }
-
-    public static function publishComment()
-    {
-        self::checkPermissions(40);
-
-        if (isset($_POST['comment_id']) && $_POST['comment_id'] !== '') {
-            $comment = (new Comment())->where('id', $_POST['comment_id'])->first();
-            $comment->is_moderated = 1;
-            $comment->save();
-            header('Location: /admin?page=comments');
-        }
+        return new View('addpost', ['title' => 'Добавление статьи']);
     }
 
     public static function publish()
     {
-        self::checkPermissions(20);
+        PermissionsController::checkPermissions(20);
 
         if ($_POST['title'] !== '' && $_POST['body'] !== '') {
             $post = new Post();
