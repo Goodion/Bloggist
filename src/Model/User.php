@@ -37,9 +37,9 @@ class User extends Model
         $this->password = password_hash($password, PASSWORD_DEFAULT);
     }
 
-    public function getEmail()
+    public function getUserLogin($id)
     {
-        return $this->email;
+        return $this->where('id', $id)->first()->login;
     }
 
     public function getGroup()
@@ -95,15 +95,5 @@ class User extends Model
         $note = trim($note);
         $note = htmlspecialchars($note);
         $this->note = $note;
-    }
-
-    public function getNote()
-    {
-        return $this->note;
-    }
-
-    public function getAvatarUri()
-    {
-        return $this->avatarUri;
     }
 }

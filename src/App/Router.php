@@ -4,6 +4,7 @@ namespace src\App;
 use \src\App\Exception\HttpException as HttpException,
     \src\App\Exception\NotFoundException as NotFoundException,
     \src\App\Route as Route;
+use \src\App\PermissionsController as PermissionsController;
 
 class Router
 {
@@ -17,8 +18,7 @@ class Router
 
     public function post($path, $callback, $method = 'POST')
     {
-        $path = '/' . trim($path, '/');
-        $this->registeredPages[$path] = new Route($path, $callback, $method);
+        $this->get($path, $callback, $method);
     }
 
     private function findRoute($path)

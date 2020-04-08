@@ -3,7 +3,7 @@
         <div class="col-md p-lg mx-auto my-5">
             <h1 class="display-4 font-weight-normal text-center"><?=$this->params['post']->title?></h1>
             <p class="blog-post-meta text-right"><?=$this->params['post']->created_at?></p>
-            <p class="lead font-weight-normal"><?=htmlspecialchars_decode($this->params['post']->body)?></p>
+            <p class="lead font-weight-normal"><?=$this->params['post']->getBody()?></p>
         </div>
     </div>
     <?php if ($this->params['comments']): ?>
@@ -12,7 +12,7 @@
                 <p class="mb-0"><?=$comment->text?></p>
                 <footer class="blockquote-footer">
                     <cite title="Автор">
-                        <?=$this->params['user']->where('id', $comment->author)->first()->login?>
+                        <?=$this->params['users']->getUserLogin($comment->author)?>
                     </cite>
                     <span class="small">
                         <?=$comment->created_at?>

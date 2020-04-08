@@ -1,9 +1,3 @@
-<?php
-
-use \src\App\PermissionsController as PermissionsController;
-
-?>
-
 <div class="container">
     <div class="row">
         <main role="main" class="col-md-12 ml-sm-auto col-lg-12 px-4">
@@ -23,7 +17,7 @@ use \src\App\PermissionsController as PermissionsController;
                 </div>
             </div>
 
-            <?php if ($_GET['page'] === 'users' && PermissionsController::checkPermissions(21)): ?>
+            <?php if ($_GET['page'] === 'users' && \src\App\PermissionsController::checkPermissions(21)): ?>
                 <h2>Пользователи</h2>
                 <div class="table-responsive">
                     <table class="table table-striped table-sm">
@@ -83,7 +77,7 @@ use \src\App\PermissionsController as PermissionsController;
                 </div>
             <?php endif; ?>
 
-            <?php if ($_GET['page'] === 'subscribes' && PermissionsController::checkPermissions(21)): ?>
+            <?php if ($_GET['page'] === 'subscribes' && \src\App\PermissionsController::checkPermissions(21)): ?>
                 <h2>Подписки</h2>
                 <div class="table-responsive">
                     <table class="table table-striped table-sm">
@@ -157,7 +151,7 @@ use \src\App\PermissionsController as PermissionsController;
             <?php if ($_GET['page'] === 'addPages'): ?>
             <?php endif; ?>
 
-            <?php if ($_GET['page'] === 'settings' && PermissionsController::checkPermissions(21)): ?>
+            <?php if ($_GET['page'] === 'settings' && \src\App\PermissionsController::checkPermissions(21)): ?>
             <?php endif; ?>
 
         </main>

@@ -48,9 +48,9 @@
             <div class="col-3 themed-grid-col">
                 <label for="avatarUpload">Загрузка аватара <small>*файл до 2 Мб</small></label>
             </div>
-            <?php if ($this->params['user']->getAvatarUri()): ?>
+            <?php if ($this->params['user']->avatarUri): ?>
                 <div class="col-1">
-                    <img class="img-thumbnail rounded mx-auto d-block" src="/upload/<?=$this->params['user']->getAvatarUri()?>">
+                    <img class="img-thumbnail rounded mx-auto d-block" src="/upload/<?=$this->params['user']->avatarUri?>">
                 </div>
             <? endif; ?>
             <div class="col-8 themed-grid-col">

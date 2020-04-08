@@ -38,7 +38,8 @@ class Application
                 $errorCode = 500;
             }
             $format = '<div class="container">Возникла ошибка: %s Код ошибки - %d</div>';
-            echo sprintf($format, $e->getMessage(), $errorCode);
+            $_SESSION['message'] = sprintf($format, $e->getMessage(), $errorCode);
+            header('Location: /');
         }
     }
 

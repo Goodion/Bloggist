@@ -3,9 +3,9 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="Пример на bootstrap 4: Блог - двухколоночный макет блога с пользовательской навигацией, заголовком и содержанием.">
+    <meta name="description" content="Блог на PHP.">
 
-    <title>Блог | Bloggist</title>
+    <title><?=$this->params['title']?> | Bloggist</title>
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 
@@ -28,16 +28,16 @@
     <!-- Custom styles for this template -->
     <link href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900" rel="stylesheet">
     <!-- Custom styles for this template -->
-    <link href="/view/blog.css" rel="stylesheet">
-    <link href="/view/signin.css" rel="stylesheet">
-    <link href="/view/grid.css" rel="stylesheet">
+    <link href="/src/css/blog.css" rel="stylesheet">
+    <link href="/src/css/signin.css" rel="stylesheet">
+    <link href="/src/css/grid.css" rel="stylesheet">
     <script src="/vendor/tinymce/tinymce/tinymce.js"></script>
     <script type="text/javascript">
         tinymce.init({
             selector: '#inputArea',
             language: 'ru',
             language_url: '/src/js/ru.js',
-            content_css : '/view/blog.css',
+            content_css : '/view/css/blog.css',
         });
     </script>
 </head>
@@ -83,6 +83,10 @@
           </nav>
       </div>
 
-
-
+      <?if (isset($_SESSION['message'])): ?>
+          <div class="alert alert-primary" role="alert">
+              <?=$_SESSION['message']?>
+              <?php unset($_SESSION['message']);?>
+          </div>
+      <?endif;?>
   </div>

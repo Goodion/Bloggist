@@ -4,6 +4,7 @@ namespace view;
 
 use \src\App\Renderable as Renderable;
 
+
 class View implements Renderable
 {
     protected $path;

@@ -20,4 +20,9 @@ class Post extends Model
         $body = htmlspecialchars($body);
         return $body;
     }
+
+    public function getBody()
+    {
+        return htmlspecialchars_decode($this->body);
+    }
 }

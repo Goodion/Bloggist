@@ -2,6 +2,8 @@
 
 namespace src\App;
 
+use src\App\Exception\NotFoundException;
+use src\App\PermissionsController as PermissionsController;
 use src\Model\Comment;
 use \src\Model\Post as Post;
 use src\Model\User;
@@ -64,27 +66,36 @@ class PostsController extends Controller
     public static function show($postId)
     {
         $post = Post::where('id', $postId)->first();
+
+        if (! $post) {
+            throw new NotFoundException('Данная статья не найдена на сервере.');
+        }
+
         $comments = Comment::all()->where('post_id', $postId)->where('is_moderated', 1);
-        $user = User::all();
+        $users = new User();
 
         return new View('readpost', [
-            'title' => 'Статья ' . $post,
+            'title' => 'Статья ' . $post->title,
             'post' => $post,
             'comments' => $comments,
-            'user' => $user
+            'users' => $users
         ]);
     }
 
     public static function addPost()
     {
-        PermissionsController::checkPermissions(20);
+        if (PermissionsController::checkPermissions(20) == false) {
+            throw new \Exception('У вас нет права добавлять статьи');
+        }
 
         return new View('addpost', ['title' => 'Добавление статьи']);
     }
 
     public static function publish()
     {
-        PermissionsController::checkPermissions(20);
+        if (PermissionsController::checkPermissions(20) == false) {
+            throw new \Exception('У вас нет права публиковать статьи');
+        }
 
         if ($_POST['title'] !== '' && $_POST['body'] !== '') {
             $post = new Post();

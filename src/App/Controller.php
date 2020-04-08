@@ -2,19 +2,13 @@
 
 namespace src\App;
 
+use src\App\PermissionsController as PermissionsController;
 use \src\Model\User as User,
     \src\App\Session as Session;
 
 
 class Controller
 {
-    protected static function checkPermissions($permissions)
-    {
-        if (! isset($_SESSION['permissions']) || $_SESSION['permissions'] < $permissions) {
-            throw new \Exception('У Вас нет доступа к данной странице.');
-        }
-    }
-
     public static function authenticate()
     {
         if (isset($_POST['login']) && isset($_POST['password']) && $_POST['login'] !== '' && $_POST['password'] !== '') {
@@ -94,7 +88,9 @@ class Controller
 
     public static function updateProfile()
     {
-        self::checkPermissions(1);
+        if (PermissionsController::checkPermissions(1) == false) {
+            throw new \Exception('У вас нет права изменфть профиль');
+        }
 
         $currentUser = User::where('login', $_SESSION['login']);
         $user = new User();
@@ -103,7 +99,7 @@ class Controller
             if (! $user->checkEmailExists($_POST['newEmail'])) {
                 if ($user->emailValidate($_POST['newEmail'])) {
                     $user->setEmail($_POST['newEmail']);
-                    $currentUser->update(['email' => $user->getEmail()]);
+                    $currentUser->update(['email' => $user->email]);
                 } else {
                     throw new \Exception('Email введён неверно.');
                 }
@@ -114,7 +110,7 @@ class Controller
 
         if ($_POST['userNote'] !== '') {
             $user->setNote($_POST['userNote']);
-            $currentUser->update(['note' => $user->getNote()]);
+            $currentUser->update(['note' => $user->note]);
         }
 
         if (isset($_POST['subscribeToggle'])) {
@@ -129,7 +125,7 @@ class Controller
                 if ($file['size'] <= 2097152) {
                     if (move_uploaded_file($file['tmp_name'], UPLOAD_DIR . $file['name'])) {
                         $user->setAvatarUri($file['name']);
-                        $currentUser->update(['avatarUri' => $user->getAvatarUri()]);
+                        $currentUser->update(['avatarUri' => $user->avatarUri]);
                     } else {
                         throw new \Exception('Ошибка загрузки файла.');
                     }
@@ -162,7 +158,7 @@ class Controller
                         'login' => $random,
                         'password' => '',
                         'note' => '',
-                        'email' => $user->getEmail(),
+                        'email' => $user->email,
                         'subscribed' => 1,
                     ]);
                 } else {

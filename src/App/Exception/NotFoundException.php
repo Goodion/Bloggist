@@ -9,6 +9,8 @@ class NotFoundException extends HttpException implements Renderable
     public function render()
     {
         $format = '<div class="container">Возникла ошибка: %s Код ошибки - %d</div>';
-        echo sprintf($format, $this->getMessage(), $this->getCode());
+        $message = sprintf($format, $this->getMessage(), $this->getCode());
+        $_SESSION['message'] = $message;
+        header('Location: /');
     }
 }

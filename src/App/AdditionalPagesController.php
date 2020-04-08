@@ -3,7 +3,7 @@
 
 namespace src\App;
 
-
+use src\App\PermissionsController as PermissionsController;
 use src\Model\Comment;
 use src\Model\Post;
 use src\Model\User;
@@ -23,7 +23,9 @@ class AdditionalPagesController extends Controller
 
     public static function account()
     {
-        PermissionsController::checkPermissions(1);
+        if (PermissionsController::checkPermissions(1) == false) {
+            throw new \Exception('У вас нет права для доступа к данной странице');
+        }
 
         $currentUser = User::where('login', $_SESSION['login'])->first();
         $_SESSION['id'] = $currentUser->id;
@@ -36,7 +38,9 @@ class AdditionalPagesController extends Controller
 
     public static function adminPanel()
     {
-        PermissionsController::checkPermissions(20);
+        if (PermissionsController::checkPermissions(20) == false) {
+            throw new \Exception('У вас нет прав для доступа к данной странце');
+        }
 
         if (!isset($_GET['page'])) {
             $_GET['page'] = 'posts';

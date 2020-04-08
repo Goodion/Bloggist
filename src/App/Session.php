@@ -5,7 +5,6 @@ use \src\Model\User as User;
 
 class Session
 {
-
     public function sessionStart(User $user)
     {
         session_destroy();

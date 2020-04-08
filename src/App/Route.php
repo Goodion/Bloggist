@@ -38,11 +38,6 @@ class Route
         return $this->path;
     }
 
-    public function getMethod()
-    {
-        return $this->method;
-    }
-
     public function match($method, $uri) : bool
     {
         return ($this->path === $uri && $this->method === $method) ? true : false;
