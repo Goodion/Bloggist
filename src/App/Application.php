@@ -29,6 +29,7 @@ class Application
 
     public function renderException(\Exception $e)
     {
+        // todo clean if/elses in this class
         if ($e instanceof Renderable) {
             $e->render();
         } else {

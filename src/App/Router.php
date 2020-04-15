@@ -36,7 +36,7 @@ class Router
         $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
         $method = $_SERVER['REQUEST_METHOD'];
         $registeredRoute = $this->findRoute($path);
-
+        //todo clean if/elses
         if ($registeredRoute) {
             if ($registeredRoute->match($method, $registeredRoute->getPath())) {
                 if ($registeredRoute->checkIsRenderable($path)) {

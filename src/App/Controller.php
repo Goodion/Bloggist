@@ -11,6 +11,7 @@ class Controller
 {
     public static function authenticate()
     {
+        //todo clean if/elses in this class
         if (isset($_POST['login']) && isset($_POST['password']) && $_POST['login'] !== '' && $_POST['password'] !== '') {
 
             $user = new User();

@@ -61,7 +61,7 @@ class Route
         if (strpos($this->path, '*')) {
             $params = $this->findParams($uri, $this->path);
         }
-
+        // todo clean if/elses in this class
         if (isset($params)) {
             $this->callbackResult = call_user_func_array($this->prepareCallback($this->callback), $params);
         } else {

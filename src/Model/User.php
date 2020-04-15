@@ -79,6 +79,7 @@ class User extends Model
     {
         $email = trim($email);
         $email = htmlspecialchars($email);
+        // todo check for if/elses in this class
         if (preg_match('/[а-яА-ЯёЁ]/', $email)) {
             return false;
         } else if (! strripos($email, '@')) {

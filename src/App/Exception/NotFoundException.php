@@ -6,6 +6,7 @@ use \src\App\Renderable as Renderable,
 
 class NotFoundException extends HttpException implements Renderable
 {
+    //todo think about other types of exceptions and message generation for them
     public function render()
     {
         $format = '<div class="container">Возникла ошибка: %s Код ошибки - %d</div>';

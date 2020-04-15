@@ -39,7 +39,7 @@ class AdditionalPagesController extends Controller
     public static function adminPanel()
     {
         if (PermissionsController::checkPermissions(20) == false) {
-            throw new \Exception('У вас нет прав для доступа к данной странце');
+            throw new \Exception('У вас нет прав для доступа к данной странце', 403);
         }
 
         if (!isset($_GET['page'])) {
