@@ -72,6 +72,25 @@ class PostsController extends Controller
             $post = new Post();
             $post->title = $post->prepareTitle($_POST['title']);
             $post->body = $post->prepareBody($_POST['body']);
+
+            if ($_FILES['picUpload']['name'] !== '') {
+                $file = $_FILES['picUpload'];
+                $tooLargeFileError = NULL;
+                if (mb_substr(mime_content_type($file['tmp_name']), 0 , 5) === 'image') {
+                    if ($file['size'] <= 2097152) {
+                        if (move_uploaded_file($file['tmp_name'], UPLOAD_DIR . $file['name'])) {
+                            $post->pic = $file['name'];
+                        } else {
+                            throw new \Exception('Ошибка загрузки файла.');
+                        }
+                    } else {
+                        throw new \Exception('Файл слишком большой.');
+                    }
+                } else {
+                    throw new \Exception('Передано не изображение.');
+                }
+            }
+
             $post->save();
             header('Location: /');
             die();

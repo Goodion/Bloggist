@@ -3,6 +3,11 @@
         <div class="col-md p-lg mx-auto my-5">
             <h1 class="display-4 font-weight-normal text-center"><?=$this->params['post']->title?></h1>
             <p class="blog-post-meta text-right"><?=$this->params['post']->created_at?></p>
+            <?php if ($this->params['post']->pic): ?>
+                <div class="col-12 border border-primary">
+                    <img class="img-thumbnail rounded mx-auto d-block" src="/upload/<?=$this->params['post']->pic?>">
+                </div>
+            <? endif; ?>
             <p class="lead font-weight-normal"><?=$this->params['post']->getBody()?></p>
         </div>
     </div>

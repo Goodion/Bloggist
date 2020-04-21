@@ -16,7 +16,16 @@
                 <div>
                     <?foreach ($this->params['currentPagePosts'] as $post): ?>
                         <div class="blog-post">
-                            <h2 class="blog-post-title"><a href="/post/<?=$post->id?>"><?=$post->title?></a></h2>
+                            <div class="container">
+                            <?php if ($post->pic): ?>
+                                <div class="col-2 float-left border border-primary mr-3">
+                                    <img class="img-thumbnail rounded mx-auto d-block" src="/upload/<?=$post->pic?>">
+                                </div>
+                            <? endif; ?>
+                                <div>
+                                    <h2 class="blog-post-title"><a href="/post/<?=$post->id?>"><?=$post->title?></a></h2>
+                                </div>
+                            </div>
                             <p class="blog-post-meta"><?=$post->created_at?> by <a href="#">SaltyDuck</a></p>
                             <?=htmlspecialchars_decode($post->body)?>
                         </div>

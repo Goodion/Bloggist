@@ -137,7 +137,6 @@ class Controller
             } else {
                 throw new \Exception('Передано не изображение.');
             }
-
         }
 
        header('Location: /account');

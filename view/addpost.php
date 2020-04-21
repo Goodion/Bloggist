@@ -5,7 +5,7 @@
 
     <div class="row">
         <div class="col-md-12">
-            <form class="needs-validation" action="/publish" method="post">
+            <form class="needs-validation" action="/publish" method="post" enctype="multipart/form-data">
                 <div class="row">
                     <div class="col-md-12 mb-3">
                         <label for="postName">Заголовок</label>
@@ -17,6 +17,12 @@
                     <div class="col-md-12 mb-3">
                         <label for="inputArea">Текст</label>
                         <textarea id="inputArea" rows="25" name="body"></textarea>
+                    </div>
+                    <div class="col-md-12 mb-3">
+                        <div class="form-group">
+                            <label for="inputArea">Добавление пиктограммы к статье</label>
+                            <input type="file" class="form-control-file" id="picUpload" name="picUpload" accept=".jpeg,.jpg,.png,.bmp,.gif">
+                        </div>
                     </div>
                 </div>
                 <hr class="mb-3">
