@@ -74,8 +74,32 @@ class PostsController extends Controller
             $post->body = $post->prepareBody($_POST['body']);
             $post->save();
             header('Location: /');
+            die();
         } else {
             throw new \Exception('Не все поля заполнены.');
         }
+    }
+
+    public static function edit($postId)
+    {
+        if (PermissionsController::checkPermissions(39) == false) {
+            throw new \Exception('У вас нет права публиковать статьи');
+        }
+
+        $post = Post::where('id', $postId)->first();
+
+        if (! $post) {
+            throw new NotFoundException('Данная статья не найдена на сервере.');
+        }
+
+        $comments = Comment::all()->where('post_id', $postId)->where('is_moderated', 1);
+        $users = new User();
+
+        return new View('editpost', [
+            'title' => 'Редактирование статьи ' . $post->title,
+            'post' => $post,
+            'comments' => $comments,
+            'users' => $users
+        ]);
     }
 }

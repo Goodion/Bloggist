@@ -4,7 +4,6 @@ namespace src\App;
 use \src\App\Exception\HttpException as HttpException,
     \src\App\Exception\NotFoundException as NotFoundException,
     \src\App\Route as Route;
-use \src\App\PermissionsController as PermissionsController;
 
 class Router
 {
@@ -40,9 +39,9 @@ class Router
         if ($registeredRoute) {
             if ($registeredRoute->match($method, $registeredRoute->getPath())) {
                 if ($registeredRoute->checkIsRenderable($path)) {
-                    $registeredRoute->run($path)->render();
+                    $registeredRoute->run()->render();
                 } else {
-                    return $registeredRoute->run($path);
+                    return $registeredRoute->run();
                 }
             } else {
                 throw new HttpException('Метод передачи ' . $method . ' не сооветствует маршруту.', 405);

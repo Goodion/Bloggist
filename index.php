@@ -17,6 +17,7 @@ $router = new Router();
 
 $router->get('/', PostsController::class . '@index');
 $router->get('/post/*', PostsController::class . '@show');
+$router->get('/post/edit/*', PostsController::class . '@edit');
 $router->get('/addpost', PostsController::class . '@addpost');
 $router->post('/publish', PostsController::class . '@publish');
 

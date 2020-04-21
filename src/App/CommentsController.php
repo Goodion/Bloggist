@@ -13,17 +13,17 @@ class CommentsController extends Controller
     {
         if (PermissionsController::checkPermissions(1) == false) {
             throw new \Exception('Чтобы оставлять комментарии необходимо зарегистрироваться.');
-        };
+        }
 
         if ($_POST['comment'] !== '' && $_POST['postId'] !== '') {
             $currentUser = User::where('login', $_SESSION['login']);
-
             $comment = new Comment();
             $comment->text = $comment->prepareText($_POST['comment']);
             $comment->author = $currentUser->value('id');
             $comment->post_id = $_POST['postId'];
             $comment->save();
             header('Location: /post/' . $comment->post_id);
+            die();
         } else {
             throw new \Exception('Не все поля заполнены.');
         }
@@ -40,6 +40,7 @@ class CommentsController extends Controller
             $comment->is_moderated = 1;
             $comment->save();
             header('Location: /admin?page=comments');
+            die();
         }
     }
 }

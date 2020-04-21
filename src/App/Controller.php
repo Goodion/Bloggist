@@ -6,7 +6,6 @@ use src\App\PermissionsController as PermissionsController;
 use \src\Model\User as User,
     \src\App\Session as Session;
 
-
 class Controller
 {
     public static function authenticate()
@@ -27,6 +26,7 @@ class Controller
                         $session->addUserCookie();
                     }
                     header('Location: /');
+                    die();
                 } else {
                     throw new \Exception('Неправильный пароль.');
                 }
@@ -53,6 +53,7 @@ class Controller
         }
         setcookie('currentUser', '', time() - 42000, '/');
         header('Location: /');
+        die();
     }
 
     public static function register()
@@ -140,6 +141,7 @@ class Controller
         }
 
        header('Location: /account');
+        die();
     }
 
     public static function subscribe()
@@ -149,6 +151,7 @@ class Controller
             $currentUser = User::where('login', $_SESSION['login']);
             $currentUser->update(['subscribed' => 1]);
             header('Location: /');
+            die();
         } else if ($_POST['email'] !== '') {
             $user = new User();
             if (! $user->checkEmailExists($_POST['email'])) {
@@ -172,5 +175,6 @@ class Controller
             throw new \Exception('Не введён email.');
         }
         header('Location: /');
+        die();
     }
 }

@@ -2,8 +2,6 @@
 
 namespace src\App;
 
-use \src\App\Renderable as Renderable;
-
 class Route
 {
     private $method;
@@ -79,7 +77,7 @@ class Route
         }
     }
 
-    public function run($uri)
+    public function run()
     {
         return $this->callbackResult;
     }

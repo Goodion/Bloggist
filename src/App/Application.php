@@ -8,6 +8,7 @@ use Illuminate\Database\Capsule\Manager as Capsule,
 class Application
 {
     public $router;
+    protected $session;
 
     public function __construct($router)
     {
@@ -22,14 +23,14 @@ class Application
         $capsule->addconnection($config->get('db'));
         $capsule->setAsGlobal();
         $capsule->bootEloquent();
-        $session = new Session;
-        $session->sessionRestart();
-        $session->placeUserCookie();
+        $this->session = new Session;
+        $this->session->sessionRestart();
+        $this->session->placeUserCookie();
+        $this->session->setUriHistory();
     }
 
     public function renderException(\Exception $e)
     {
-        // todo clean if/elses in this class
         if ($e instanceof Renderable) {
             $e->render();
         } else {
@@ -38,9 +39,14 @@ class Application
             } else {
                 $errorCode = 500;
             }
-            $format = '<div class="container">Возникла ошибка: %s Код ошибки - %d</div>';
-            $_SESSION['message'] = sprintf($format, $e->getMessage(), $errorCode);
+            $format = '<div class="container">Возникла ошибка: %s</div>';
+            $_SESSION['message'] = sprintf($format, $e->getMessage());
+            if (isset($_SESSION['backurl'])) {
+                header("Location: http://" . $_SERVER['HTTP_HOST'] . $this->session->getPreviousPage());
+                die();
+            }
             header('Location: /');
+            die();
         }
     }
 

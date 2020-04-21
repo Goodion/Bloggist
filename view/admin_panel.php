@@ -54,7 +54,7 @@
             <?php endif; ?>
 
             <?php if ($_GET['page'] === 'posts'): ?>
-                <h2>Статьи</h2>
+                <h2>Редактирование статей</h2>
                 <div class="table-responsive">
                     <table class="table table-striped table-sm">
                         <thead>
@@ -68,7 +68,7 @@
                         <?php foreach ($this->params['posts'] as $post): ?>
                             <tr>
                                 <td><?=$post->id?></td>
-                                <td><a href="/post/<?=$post->id?>"><?=$post->title?></a></td>
+                                <td><a href="/post/edit/<?=$post->id?>"><?=$post->title?></a></td>
                                 <td><?=$post->created_at?></td>
                             </tr>
                         <?php endforeach; ?>
