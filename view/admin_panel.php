@@ -149,6 +149,22 @@
             <?php endif; ?>
 
             <?php if ($_GET['page'] === 'addPages'): ?>
+                <form method="post" action="/additional-page/publish">
+                    <div align="center">
+                        Введите название страницы: <br />
+                        <input type="text" name="title"> <br />
+                        Код страницы:<br />
+                        <textarea rows="20" cols="100" name="body"></textarea><br />
+                        <input type="submit" value="Отправить">
+                    </div>
+                </form>
+                <div class="container mb-5">
+                    <h2>Редактирование дополнительных страниц</h2>
+                    <?php foreach ($this->params['additionalPages'] as $page): ?>
+                        <h3><a href="/additional-page/edit/<?=$page['link']?>"><?=$page['title']?></a></h3>
+                        <button><a href="/additional-page/delete/<?=$page['link']?>">Удалить</a></button>
+                    <?php endforeach; ?>
+                </div>
             <?php endif; ?>
 
             <?php if ($_GET['page'] === 'settings' && \src\App\PermissionsController::checkPermissions(21)): ?>

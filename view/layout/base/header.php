@@ -71,6 +71,7 @@
           <nav class="nav d-flex justify-content-between">
               <a class="p-2 text-muted" href="/">Главная</a>
               <a class="p-2 text-muted" href="/rules">Правила сайта</a>
+              <a class="p-2 text-muted" href="/additional-pages">Дополнительные страницы</a>
               <?php if (isset($_SESSION['permissions'])): ?>
                 <a class="p-2 text-muted" href="/account">Мой аккаунт</a>
                 <?php if ($_SESSION['permissions'] >= 20): ?>

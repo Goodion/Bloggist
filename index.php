@@ -29,6 +29,12 @@ $router->get('/authentication', AdditionalPagesController::class . '@authenticat
 $router->get('/account', AdditionalPagesController::class . '@account');
 $router->get('/rules', AdditionalPagesController::class . '@rulesPage');
 $router->get('/admin', AdditionalPagesController::class . '@adminPanel');
+$router->get('/additional-pages', AdditionalPagesController::class . '@additionalPages');
+$router->get('/additional-pages/*', AdditionalPagesController::class . '@show');
+$router->post('/additional-page/publish', AdditionalPagesController::class . '@publish');
+$router->post('/additional-page/patch/*', AdditionalPagesController::class . '@patch');
+$router->get('/additional-page/edit/*', AdditionalPagesController::class . '@edit');
+$router->get('/additional-page/delete/*', AdditionalPagesController::class . '@delete');
 
 $router->post('/subscribe', Controller::class . '@subscribe');
 $router->post('/register', Controller::class . '@register');
