@@ -11,7 +11,7 @@ use src\Model\Post;
 use src\Model\User;
 use view\View;
 
-class AdditionalPagesController extends Controller
+class AdditionalPagesController extends AbstractPrivateController
 {
     public static function registrationPage()
     {
@@ -25,9 +25,7 @@ class AdditionalPagesController extends Controller
 
     public static function account()
     {
-        if (PermissionsController::checkPermissions(1) == false) {
-            throw new \Exception('У вас нет права для доступа к данной странице');
-        }
+        new AdditionalPagesController();
 
         $currentUser = User::where('login', $_SESSION['login'])->first();
         $_SESSION['id'] = $currentUser->id;
@@ -40,9 +38,7 @@ class AdditionalPagesController extends Controller
 
     public static function adminPanel()
     {
-        if (PermissionsController::checkPermissions(20) == false) {
-            throw new \Exception('У вас нет прав для доступа к данной странце', 403);
-        }
+        new AdditionalPagesController(20, 'У вас нет прав для доступа к данной странце');
 
         if (!isset($_GET['page'])) {
             $_GET['page'] = 'posts';
@@ -83,6 +79,8 @@ class AdditionalPagesController extends Controller
 
     public static function delete($additionalPageLink)
     {
+        new AdditionalPagesController(39, 'У вас нет права удалять страницы');
+
         $additionalPage = AdditionalPage::where('link', $additionalPageLink)->first();
         if (! $additionalPage) {
             throw new NotFoundException('Данная страница не найдена на сервере.');
@@ -97,9 +95,7 @@ class AdditionalPagesController extends Controller
 
     public static function publish()
     {
-        if (PermissionsController::checkPermissions(39) == false) {
-            throw new \Exception('У вас нет права добавлять страницы');
-        }
+        new AdditionalPagesController(39, 'У вас нет права добавлять страницы');
 
         if ($_POST['title'] !== '' && $_POST['body'] !== '') {
             $additionalPage = new AdditionalPage();
@@ -117,9 +113,7 @@ class AdditionalPagesController extends Controller
 
     public static function patch($additionalPageLink)
     {
-        if (PermissionsController::checkPermissions(39) == false) {
-            throw new \Exception('У вас нет права изменять страницы');
-        }
+        new AdditionalPagesController(39, 'У вас нет права изменять страницы');
 
         if ($_POST['title'] !== '' && $_POST['body'] !== '') {
             $file = $additionalPageLink;
@@ -133,9 +127,7 @@ class AdditionalPagesController extends Controller
 
     public static function edit($additionalPageLink)
     {
-        if (PermissionsController::checkPermissions(39) == false) {
-            throw new \Exception('У вас нет права публиковать статьи');
-        }
+        new AdditionalPagesController(39, 'У вас нет права публиковать статьи');
 
         $additionalPage = AdditionalPage::where('link', $additionalPageLink)->first();
         $body = file_get_contents(ADDITIONAL_PAGES_DIR . $additionalPage->link . '.php');

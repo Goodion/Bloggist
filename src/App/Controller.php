@@ -6,7 +6,7 @@ use src\App\PermissionsController as PermissionsController;
 use \src\Model\User as User,
     \src\App\Session as Session;
 
-class Controller
+class Controller extends AbstractPrivateController
 {
     public static function authenticate()
     {
@@ -90,9 +90,7 @@ class Controller
 
     public static function updateProfile()
     {
-        if (PermissionsController::checkPermissions(1) == false) {
-            throw new \Exception('У вас нет права изменфть профиль');
-        }
+        new Controller();
 
         $currentUser = User::where('login', $_SESSION['login']);
         $user = new User();

@@ -7,13 +7,11 @@ use src\App\PermissionsController as PermissionsController;
 use src\Model\Comment as Comment;
 use src\Model\User as User;
 
-class CommentsController extends Controller
+class CommentsController extends AbstractPrivateController
 {
     public static function add()
     {
-        if (PermissionsController::checkPermissions(1) == false) {
-            throw new \Exception('Чтобы оставлять комментарии необходимо зарегистрироваться.');
-        }
+        new CommentsController();
 
         if ($_POST['comment'] !== '' && $_POST['postId'] !== '') {
             $currentUser = User::where('login', $_SESSION['login']);
@@ -31,9 +29,7 @@ class CommentsController extends Controller
 
     public static function publish()
     {
-        if (PermissionsController::checkPermissions(40) == false) {
-            throw new \Exception('У вас нет права размещать комментарии');
-        }
+        new CommentsController(40, 'У вас нет права размещать комментарии');
 
         if (isset($_POST['comment_id']) && $_POST['comment_id'] !== '') {
             $comment = (new Comment())->where('id', $_POST['comment_id'])->first();

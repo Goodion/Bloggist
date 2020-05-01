@@ -10,7 +10,7 @@ use src\Model\Post;
 use src\Model\User;
 use view\View;
 
-class PostsController extends Controller
+class PostsController extends AbstractPrivateController
 {
     public static function index()
     {
@@ -55,18 +55,13 @@ class PostsController extends Controller
 
     public static function addPost()
     {
-        if (PermissionsController::checkPermissions(20) == false) {
-            throw new \Exception('У вас нет права добавлять статьи');
-        }
-
+        new PostsController(20, 'У вас нет права добавлять статьи');
         return new View('addpost', ['title' => 'Добавление статьи']);
     }
 
     public static function publish()
     {
-        if (PermissionsController::checkPermissions(20) == false) {
-            throw new \Exception('У вас нет права публиковать статьи');
-        }
+        new PostsController(20, 'У вас нет права публиковать статьи');
 
         if ($_POST['title'] !== '' && $_POST['body'] !== '') {
             $post = new Post();
@@ -101,9 +96,7 @@ class PostsController extends Controller
 
     public static function edit($postId)
     {
-        if (PermissionsController::checkPermissions(39) == false) {
-            throw new \Exception('У вас нет права публиковать статьи');
-        }
+        new PostsController(39, 'У вас нет права редактировать статьи');
 
         $post = Post::where('id', $postId)->first();
 
